@@ -1,0 +1,102 @@
+<html>
+
+<head>
+
+<title> JSON Parser </title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxygen">
+<link rel="stylesheet" type="text/css" href="SeamlessStyle.css"> 
+
+
+</head>
+
+<body>
+
+<h1> Patient Parser </h1> 
+<br>
+
+<div> Please enter your JSON file here: </div>
+
+<textarea class="textbox" id="patientJSON" rows="4" cols="50">
+{
+  "resourceType": "Patient",
+  "id": "xcda",
+  "text": { 
+    "status": "generated",
+    "div": "<div> \n      \n      <p>Henry Levin the 7th</>\n    \n    </div>"
+  },
+  "identifier" : {
+      "use": "usual",
+      "type": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/v2/0203",
+            "code": "MR"
+          }
+        ]
+      },
+      "system": "urn:oid:2.16.840.1.113883.19.5",
+      "value": "12345"
+  },
+  "active": true,
+  "name": [
+    {
+      "family": [
+        "Levin"
+      ],
+      "given": [
+        "Henry"
+      ]
+    }
+  ],
+  "gender" : "male",
+  "birthDate": "2002-09-24",
+  "managingOrganization": {
+    "reference": "Organization/2.16.840.1.113883.19.5",
+    "display": "University Health Network"
+  },
+  "conditions": [
+    "Diabetes",
+    "High blood pressure",
+    "Asthma"
+  ]
+}
+</textarea>
+      <br>
+      <button id="submitJSON">Get Patient Info</button>
+      <div>
+        <h5 id="patientName">Patient Name:</h5>
+        <h5 id="organizationName">Organization Name:</h5>
+        <h5 id="gender">Gender:</h5>
+        <h5 id="numConditions">Number of Conditions:</h5>
+        <h5 id="listConditions">List of Conditions:</h5>
+      </div>
+    </body>
+	
+  <script>
+    function validateJSON(e) {
+      try {
+        var patientJSON = document.getElementById("patientJSON").value;
+        var parsedJSON = JSON.parse(patientJSON);
+
+        document.getElementById("patientName").innerHTML = "Patient name: " + parsedJSON.name[0].given[0] + " " + parsedJSON.name[0].family[0];
+        document.getElementById("organizationName").innerHTML = "Organization Name: " + parsedJSON.managingOrganization.display;
+        document.getElementById("gender").innerHTML = "Gender: " + parsedJSON.gender;
+        document.getElementById("numConditions").innerHTML = "Number of Conditions: " + parsedJSON.conditions.length;
+
+        var listOfConditions = "List of conditions: ";
+        for (var i = 0; i < parsedJSON.conditions.length; i++) {
+            listOfConditions += parsedJSON.conditions[i];
+            if (i < parsedJSON.conditions.length - 1) listOfConditions += ", ";
+        }
+        document.getElementById("listConditions").innerHTML = listOfConditions;
+      } catch (e) {
+        alert(e);
+      }
+    }
+    document.getElementById("submitJSON").addEventListener("click", validateJSON);
+  </script>
+
+</html>

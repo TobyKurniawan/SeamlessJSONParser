@@ -15,7 +15,8 @@
 <body>
 
 <h1> Patient Parser </h1> 
-<br>
+
+<br/>
 
 <div> Please enter your JSON file here: </div>
 
@@ -64,14 +65,14 @@
   ]
 }
 </textarea>
-      <br>
+      <br/>
       <button id="submitJSON">Get Patient Info</button>
       <div>
         <h4 id="patientName">Name of patient:</h4>
         <h4 id="organizationName">Organization name:</h4>
         <h4 id="gender">Gender:</h4>
         <h4 id="numConditions">Number of conditions they have:</h5>
-        <h4 id="listConditions">List of all conditions:</h4>
+        <h4 id="listConditions">List of all conditions: </br> </h4>
       </div>
     </body>
 	
@@ -82,14 +83,14 @@
         var parsedJSON = JSON.parse(patientJSON);
 
         document.getElementById("patientName").innerHTML = "Patient name: " + parsedJSON.name[0].given[0] + " " + parsedJSON.name[0].family[0];
-        document.getElementById("organizationName").innerHTML = "Organization Name: " + parsedJSON.managingOrganization.display;
+        document.getElementById("organizationName").innerHTML = "Organization name: " + parsedJSON.managingOrganization.display;
         document.getElementById("gender").innerHTML = "Gender: " + parsedJSON.gender;
-        document.getElementById("numConditions").innerHTML = "Number of Conditions: " + parsedJSON.conditions.length;
+        document.getElementById("numConditions").innerHTML = "Number of conditions they have: " + parsedJSON.conditions.length;
 
-        var listOfConditions = "List of conditions: ";
+        var listOfConditions = "List of all conditions:  <br/>";
         for (var i = 0; i < parsedJSON.conditions.length; i++) {
-            listOfConditions += parsedJSON.conditions[i];
-            if (i < parsedJSON.conditions.length - 1) listOfConditions += ", ";
+            listOfConditions += "- " + parsedJSON.conditions[i];
+            if (i < parsedJSON.conditions.length - 1) listOfConditions += "</br>" ;
         }
         document.getElementById("listConditions").innerHTML = listOfConditions;
       } catch (e) {
